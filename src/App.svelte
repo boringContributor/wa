@@ -28,7 +28,7 @@
 </script>
 
 <svelte:head>
-	<title>WhatsApp</title>
+	<title>Open WhatsApp</title>
 	<meta name="robots" content="max-snippet:[80]" />
 	<meta name="description" content="Open whatsapp for unsaved numbers" />
 	<meta name="keywords" content="Whatsapp" />
