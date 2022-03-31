@@ -2,14 +2,20 @@
 	export let title: string;
 	export let description: string;
 	export let number: number;
-	export const dummyNumber = "49123456789";
+	export const dummyNumber = "49 211 5684962";
+	export let hasError = false;
 
 	function handleClick(): void {
 		if (!isValidNumber(number)) {
-			alert("wrong number");
+			hasError = true;
+			setTimeout(() => {
+				hasError = false;
+			}, 1000);
+			return;
 		}
 		const browserLink = `https://web.whatsapp.com/send?phone=${number}&text&app_absent=1`;
 		window.open(browserLink, "_blank");
+		number = undefined;
 	}
 
 	function isValidNumber(input: number | undefined): boolean {
@@ -44,15 +50,26 @@
 			class="lottie"
 			autoplay
 		/>
-		<input bind:value={number} placeholder={dummyNumber} class="label" />
-		<button on:click={handleClick} class="button-62">Open</button>
+		<div>
+			<span class="label">+</span>
+			<input
+				id="number-input"
+				bind:value={number}
+				placeholder={dummyNumber}
+				class:hasError
+			/>
+		</div>
+
+		<button on:click={handleClick}>Open</button>
 	</div>
 </main>
 
 <style>
 	.label {
-		background-repeat: no-repeat;
-		background-position: 2px 3px;
+		position: absolute;
+		margin: 10px 0px 0px 10px;
+	}
+	input {
 		text-indent: 17px;
 	}
 	.lottie {
@@ -69,7 +86,7 @@
 	h1 {
 		color: var(--main-color);
 		text-transform: capitalize;
-		font-size: 4em;
+		font-size: 3em;
 		font-weight: 100;
 	}
 
@@ -79,20 +96,17 @@
 		}
 	}
 
-	/* CSS */
-	.button-62 {
+	button {
 		background: linear-gradient(
 			to bottom right,
 			var(--main-color),
 			#ff9a5a
 		);
 		border: 0;
-		border-radius: 12px;
 		color: #ffffff;
 		cursor: pointer;
-		display: inline-block;
 		font-weight: 500;
-		line-height: 2.5;
+		line-height: 2;
 		outline: transparent;
 		padding: 0 1rem;
 		text-align: center;
@@ -104,15 +118,58 @@
 		white-space: nowrap;
 	}
 
-	.button-62:not([disabled]):focus {
+	button:not([disabled]):focus {
 		box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.5),
 			-0.125rem -0.125rem 1rem rgba(239, 71, 101, 0.5),
 			0.125rem 0.125rem 1rem rgba(255, 154, 90, 0.5);
 	}
 
-	.button-62:not([disabled]):hover {
+	button:not([disabled]):hover {
 		box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.5),
 			-0.125rem -0.125rem 1rem rgba(239, 71, 101, 0.5),
 			0.125rem 0.125rem 1rem rgba(255, 154, 90, 0.5);
+	}
+
+	.hasError {
+		outline: 0;
+		border-color: red;
+		animation-name: bounce;
+		animation-duration: 0.9s;
+		animation-delay: 0.25s;
+	}
+
+	@keyframes bounce {
+		0% {
+			transform: translateX(0px);
+			timing-function: ease-in;
+		}
+		37% {
+			transform: translateX(5px);
+			timing-function: ease-out;
+		}
+		55% {
+			transform: translateX(-5px);
+			timing-function: ease-in;
+		}
+		73% {
+			transform: translateX(4px);
+			timing-function: ease-out;
+		}
+		82% {
+			transform: translateX(-4px);
+			timing-function: ease-in;
+		}
+		91% {
+			transform: translateX(2px);
+			timing-function: ease-out;
+		}
+		96% {
+			transform: translateX(-2px);
+			timing-function: ease-in;
+		}
+		100% {
+			transform: translateX(0px);
+			timing-function: ease-in;
+		}
 	}
 </style>
