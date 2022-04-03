@@ -1,11 +1,12 @@
 <script lang="ts">
 	export let title: string;
 	export let description: string;
-	export let number: number;
-	export const dummyNumber = "49 211 5684962";
-	export let hasError = false;
+	let number: number;
+	const dummyNumber = "49 211 5684962";
+	let hasError = false;
 
-	function handleClick(): void {
+	function handleClick(event): void {
+		if (event.key !== "Enter") return;
 		if (!isValidNumber(number)) {
 			hasError = true;
 			setTimeout(() => {
@@ -25,21 +26,24 @@
 			input.toString().slice(0, 1) != "0"
 		);
 	}
+
+	document.addEventListener("keyup", handleClick, true);
 </script>
 
 <svelte:head>
 	<title>Open WhatsApp</title>
 	<meta name="robots" content="max-snippet:[80]" />
-	<meta name="description" content="Open whatsapp for unsaved numbers" />
-	<meta name="keywords" content="Whatsapp" />
+	<meta name="description" content="Open WhatsApp for unsaved numbers" />
+	<meta name="keywords" content="WhatsApp" />
 </svelte:head>
 
 <main>
-	<h1>{title}</h1>
-
-	<p>
-		{description}
-	</p>
+	<h1>
+		<span class="gooey">
+			{title}
+		</span>
+	</h1>
+	<p>{description}</p>
 
 	<div>
 		<lottie-player
@@ -62,9 +66,48 @@
 
 		<button on:click={handleClick}>Open</button>
 	</div>
+
+	<svg width="0" height="0" xmlns="http://www.w3.org/2000/svg" version="1.1">
+		<defs>
+			<filter id="goo">
+				<feGaussianBlur
+					in="SourceGraphic"
+					stdDeviation="7"
+					result="blur"
+				/>
+
+				<feColorMatrix
+					in="blur"
+					mode="matrix"
+					values="1  0  0  0  0
+                        0  1  0  0  0
+                        0  0  1  0  0
+                        0  0  0  25  -12"
+					result="goo"
+				/>
+
+				<feComposite in="SourceGraphic" in2="goo" operator="atop" />
+			</filter>
+		</defs>
+	</svg>
 </main>
 
 <style>
+	svg {
+		visibility: hidden;
+		position: absolute;
+		top: -100%;
+		left: -100%;
+	}
+
+	.gooey {
+		color: whitesmoke;
+		background-color: var(--main-color);
+		padding: 0.3em;
+		box-decoration-break: clone;
+		-webkit-box-decoration-break: clone;
+		filter: url("#goo");
+	}
 	.label {
 		position: absolute;
 		margin: 10px 0px 0px 10px;
@@ -86,8 +129,9 @@
 	h1 {
 		color: var(--main-color);
 		text-transform: capitalize;
-		font-size: 3em;
 		font-weight: 100;
+		font-size: 2.5rem;
+		line-height: 1.7em;
 	}
 
 	@media (min-width: 640px) {
@@ -132,6 +176,7 @@
 
 	.hasError {
 		outline: 0;
+		border-style: solid;
 		border-color: red;
 		animation-name: bounce;
 		animation-duration: 0.9s;
