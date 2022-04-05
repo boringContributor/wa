@@ -6,7 +6,7 @@
 	let hasError = false;
 
 	function handleClick(event): void {
-		if (event.key !== "Enter") return;
+		// if (event.key !== "Enter") return;
 		if (!isValidNumber(number)) {
 			hasError = true;
 			setTimeout(() => {
@@ -27,7 +27,7 @@
 		);
 	}
 
-	document.addEventListener("keyup", handleClick, true);
+	// document.addEventListener("keyup", handleClick, true);
 </script>
 
 <svelte:head>
@@ -64,7 +64,7 @@
 			/>
 		</div>
 
-		<button on:click={handleClick}>Open</button>
+		<button type="button" on:click={handleClick}>Open</button>
 	</div>
 
 	<svg width="0" height="0" xmlns="http://www.w3.org/2000/svg" version="1.1">
